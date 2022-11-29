@@ -230,19 +230,7 @@
  */
 - (void)tap:(UITapGestureRecognizer *)tap
 {
-    if (![self isFirstResponder]) {
-        _insertionIndex = nil;
-        [_caretView showHandle:NO];
-        [self startEditing];
-    } else {
-        // If already editing move the cursor and show handle
-        _insertionIndex = [self closestIndexToPoint:[tap locationInView:self]];
-        if (_insertionIndex == nil) {
-            _insertionIndex = [MTMathListIndex level0Index:self.mathList.atoms.count];
-        }
-        [_caretView showHandle:NO];
-        [self insertionPointChanged];
-    }
+    [self moveCaretToPoint:[tap locationInView:self]];
 }
 
 - (void)clearTapped:(UITapGestureRecognizer *)tap
@@ -256,11 +244,55 @@
     [self insertionPointChanged];
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    for (UITouch *touch in touches) {
+        [self moveCaretToPoint: [touch locationInView:self]];
+    }
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    for (UITouch *touch in touches) {
+        [self moveCaretToPoint: [touch locationInView:self]];
+    }
+}
+
 - (void)moveCaretToPoint:(CGPoint)point
 {
-    _insertionIndex = [self closestIndexToPoint:point];
-    [_caretView showHandle:NO];
-    [self insertionPointChanged];
+//    _insertionIndex = [self closestIndexToPoint:point];
+//    [_caretView showHandle:NO];
+//    [self insertionPointChanged];
+    
+    if (![self isFirstResponder]) {
+        _insertionIndex = nil;
+        [_caretView showHandle:NO];
+        [self startEditing];
+    } else {
+        MTMathListIndex* newIndex = [self closestIndexToPoint:point];
+//        _insertionIndex = [self closestIndexToPoint:point];
+        if (newIndex == nil) {
+            _insertionIndex = [MTMathListIndex level0Index:self.mathList.atoms.count];
+        }
+        else if ( newIndex.atomIndex != _insertionIndex.atomIndex) {
+            _insertionIndex = newIndex;
+            [_caretView showHandle:NO];
+            [self insertionPointChanged];
+            ///代理通知
+            NSLog(@"autoIndex change");
+        }
+        
+    }
 }
 
 + (void) clearPlaceholders:(MTMathList*) mathList

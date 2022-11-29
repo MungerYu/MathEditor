@@ -6,6 +6,7 @@
 build/
 DerivedData
 .DS_Store
+MathEditor.xcworkspace/xcshareddata/
 
 ## Various settings
 *.pbxuser
