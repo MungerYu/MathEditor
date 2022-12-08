@@ -270,9 +270,6 @@
 
 - (void)moveCaretToPoint:(CGPoint)point
 {
-//    _insertionIndex = [self closestIndexToPoint:point];
-//    [_caretView showHandle:NO];
-//    [self insertionPointChanged];
     
     if (![self isFirstResponder]) {
         _insertionIndex = nil;
@@ -280,17 +277,18 @@
         [self startEditing];
     } else {
         MTMathListIndex* newIndex = [self closestIndexToPoint:point];
-//        _insertionIndex = [self closestIndexToPoint:point];
-        if (newIndex == nil) {
-            _insertionIndex = [MTMathListIndex level0Index:self.mathList.atoms.count];
-        }
-        else if ( newIndex.atomIndex != _insertionIndex.atomIndex) {
-            _insertionIndex = newIndex;
-            [_caretView showHandle:NO];
-            [self insertionPointChanged];
-            ///代理通知
+        if ([newIndex isEqual:_insertionIndex]) {
+            return;
+        } else {
+            //代理通知
             NSLog(@"autoIndex change");
         }
+        _insertionIndex = [self closestIndexToPoint:point];
+        if (_insertionIndex == nil) {
+            _insertionIndex = [MTMathListIndex level0Index:self.mathList.atoms.count];
+        }
+        [_caretView showHandle:NO];
+        [self insertionPointChanged];
         
     }
 }
