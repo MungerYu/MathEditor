@@ -280,6 +280,9 @@
                 return nil;
             }
         }
+            // MARK: munger add
+        case kMTSubIndexTypeInner:
+            return nil;
     }
 }
 

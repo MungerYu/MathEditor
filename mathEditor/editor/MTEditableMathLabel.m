@@ -721,7 +721,7 @@ static const unichar kMTUnicodeGreekCapitalEnd = 0x03A9;
 
 - (void) insertText:(NSString*) str
 {
-    NSLog(@"insertText: %@", str);
+    NSLog(@"insertText = %@", str);
     if ([str isEqualToString:@"\n"]) {
         if ([self.delegate respondsToSelector:@selector(returnPressed:)]) {
             [self.delegate returnPressed:self];

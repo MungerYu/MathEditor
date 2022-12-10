@@ -287,6 +287,7 @@ static CGFloat distanceFromPointToRect(CGPoint point, CGRect rect) {
         case kMTSubIndexTypeNucleus:
         case kMTSubIndexTypeSubscript:
         case kMTSubIndexTypeSuperscript:
+        case kMTSubIndexTypeInner:
         case kMTSubIndexTypeNone:
             NSAssert(false, @"Not a fraction subtype %d", type);
             return nil;
@@ -375,6 +376,7 @@ static CGFloat distanceFromPointToRect(CGPoint point, CGRect rect) {
         case kMTSubIndexTypeSubscript:
         case kMTSubIndexTypeSuperscript:
         case kMTSubIndexTypeNone:
+        case kMTSubIndexTypeInner:
             NSAssert(false, @"Not a radical subtype %d", type);
             return nil;
     }
