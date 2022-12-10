@@ -9,7 +9,7 @@ target 'MathEditor_Tests' do
   pod 'MathEditor', :path => './'
 end
 target 'MathEditor' do
-    pod 'iosMath'
+    pod 'iosMath' :path => '../iosMath'
 end
 post_install do |installer|
   installer.pods_project.targets.each do |target|

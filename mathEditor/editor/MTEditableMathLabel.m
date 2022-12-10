@@ -449,42 +449,59 @@ static const unichar kMTUnicodeGreekCapitalEnd = 0x03A9;
     // unicode characters and latex special characters.
     MTMathAtom* atom = [MTMathAtomFactory atomForCharacter:ch];
     if (atom) {
+        NSLog(@"atom = %@", atom);
         return atom;
     } else if ([chStr isEqualToString:MTSymbolMultiplication]) {
+        NSLog(@"atom = %@", [MTMathAtomFactory times]);
         return [MTMathAtomFactory times];
     } else if ([chStr isEqualToString:MTSymbolSquareRoot]) {
+        NSLog(@"atom = %@", [MTMathAtomFactory placeholderSquareRoot]);
         return [MTMathAtomFactory placeholderSquareRoot];
     } else if ([chStr isEqualToString:MTSymbolInfinity]) {
+        NSLog(@"atom = %@", [MTMathAtom atomWithType:kMTMathAtomOrdinary value:chStr]);
         return [MTMathAtom atomWithType:kMTMathAtomOrdinary value:chStr];
     } else if ([chStr isEqualToString:MTSymbolDegree]) {
+        NSLog(@"atom = %@", [MTMathAtom atomWithType:kMTMathAtomOrdinary value:chStr]);
         return [MTMathAtom atomWithType:kMTMathAtomOrdinary value:chStr];
     } else if ([chStr isEqualToString:MTSymbolAngle]) {
+        NSLog(@"atom = %@", [MTMathAtom atomWithType:kMTMathAtomOrdinary value:chStr]);
         return [MTMathAtom atomWithType:kMTMathAtomOrdinary value:chStr];
     } else if ([chStr isEqualToString:MTSymbolDivision]) {
+        NSLog(@"atom = %@", [MTMathAtomFactory divide]);
         return [MTMathAtomFactory divide];
     } else if ([chStr isEqualToString:MTSymbolFractionSlash]) {
+        NSLog(@"atom = %@", [MTMathAtomFactory placeholderFraction]);
         return [MTMathAtomFactory placeholderFraction];
     } else if (ch == '{') {
+        NSLog(@"atom = %@", [MTMathAtom atomWithType:kMTMathAtomOpen value:chStr]);
         return [MTMathAtom atomWithType:kMTMathAtomOpen value:chStr];
     } else if (ch == '}') {
+        NSLog(@"atom = %@", [MTMathAtom atomWithType:kMTMathAtomClose value:chStr]);
         return [MTMathAtom atomWithType:kMTMathAtomClose value:chStr];
     } else if ([chStr isEqualToString:MTSymbolGreaterEqual] ||
                [chStr isEqualToString:MTSymbolLessEqual]) {
+        NSLog(@"atom = %@", [MTMathAtom atomWithType:kMTMathAtomRelation value:chStr]);
         return [MTMathAtom atomWithType:kMTMathAtomRelation value:chStr];
     } else if (ch == '*') {
+        NSLog(@"atom = %@",[MTMathAtomFactory times]);
         return [MTMathAtomFactory times];
     } else if (ch == '/') {
+        NSLog(@"atom = %@", [MTMathAtomFactory divide]);
         return [MTMathAtomFactory divide];
     } else if (ch >= kMTUnicodeGreekLowerStart && ch <= kMTUnicodeGreekLowerEnd) {
+        NSLog(@"atom = %@", [MTMathAtom atomWithType:kMTMathAtomVariable value:chStr]);
         // All greek chars are rendered as variables.
         return [MTMathAtom atomWithType:kMTMathAtomVariable value:chStr];
     } else if (ch >= kMTUnicodeGreekCapitalStart && ch <= kMTUnicodeGreekCapitalEnd) {
+        NSLog(@"atom = %@",[MTMathAtom atomWithType:kMTMathAtomVariable value:chStr]);
         // Including capital greek chars
         return [MTMathAtom atomWithType:kMTMathAtomVariable value:chStr];
     } else if (ch < 0x21 || ch > 0x7E || ch == '\'' || ch == '~') {
+        
         // not ascii
         return nil;
     } else {
+        NSLog(@"atom = %@", [MTMathAtom atomWithType:kMTMathAtomOrdinary value:chStr]);
         // just an ordinary character
         return [MTMathAtom atomWithType:kMTMathAtomOrdinary value:chStr];
     }
@@ -704,6 +721,7 @@ static const unichar kMTUnicodeGreekCapitalEnd = 0x03A9;
 
 - (void) insertText:(NSString*) str
 {
+    NSLog(@"insertText: %@", str);
     if ([str isEqualToString:@"\n"]) {
         if ([self.delegate respondsToSelector:@selector(returnPressed:)]) {
             [self.delegate returnPressed:self];
